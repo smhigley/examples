@@ -15,6 +15,7 @@ import {
 } from '../actions/userActions';
 import createCheckboxInput from './createCheckboxInput';
 import createFocusableTextInput from './createFocusableTextInput';
+import createTodoLabel from './createTodoLabel';
 
 type TodoItemState = RenderMixinState & StatefulChildrenState & {
 	editing?: boolean;
@@ -95,12 +96,16 @@ const createTodoItem = createRenderMixin
 					}
 				},
 				label: {
-					factory: createRenderMixin,
+					factory: createTodoLabel,
 					options: {
 						listeners: {
-							dblclick: () => { todoEdit.do(instance.state); }
-						},
-						tagName: 'label'
+							dblclick: () => { todoEdit.do(instance.state); },
+							keypress: (event: KeyboardEvent) => {
+								if (event.which === 13) {
+									todoEdit.do(instance.state);
+								}
+							}
+						}
 					}
 				},
 				editInput: {
