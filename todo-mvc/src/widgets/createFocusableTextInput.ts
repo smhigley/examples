@@ -20,8 +20,11 @@ export type FocusableTextInput = RenderMixin<FocusableTextInputState> & FormFiel
 
 const afterUpdateFunctions = new WeakMap<FocusableTextInput, {(element: HTMLInputElement): void}>();
 
+/* afterUpdate is a Maquette JS callback when it thinks the node "may have been updated" */
 function afterUpdate(instance: FocusableTextInput, element: HTMLInputElement) {
+	console.log(arguments);
 	const focused: boolean = instance.state.focused;
+	console.log("afterUpdate Called on", element);
 	if (focused) {
 		setTimeout(() => element.focus(), 0);
 	}

@@ -44,6 +44,7 @@ const childrenMap = new WeakMap<TodoItem, TodoItemChildren<RenderMixin<any>>>();
 function manageChildren(this: TodoItem) {
 	/* Obtain references to children widgets */
 	const { checkbox, label, editInput } = childrenMap.get(this);
+	console.log("calling manage children");
 
 	/* Adjust the state of the children to reflect parent */
 
@@ -102,11 +103,7 @@ const createTodoItem = createRenderMixin
 							dblclick: () => { todoEdit.do(instance); },
 							keyup: (event: KeyboardEvent) => {
 								if (event.which === 13) {
-									todoEdit.do(instance)
-										.then(function() {
-											let editing_inputs = document.querySelectorAll('.editing');
-											console.log("second promise", editing_inputs);
-										});
+									todoEdit.do(instance);
 								}
 							}
 						}
