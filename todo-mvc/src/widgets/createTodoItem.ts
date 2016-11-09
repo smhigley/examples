@@ -99,10 +99,14 @@ const createTodoItem = createRenderMixin
 					factory: createTodoLabel,
 					options: {
 						listeners: {
-							dblclick: () => { todoEdit.do(instance.state); },
-							keypress: (event: KeyboardEvent) => {
+							dblclick: () => { todoEdit.do(instance); },
+							keyup: (event: KeyboardEvent) => {
 								if (event.which === 13) {
-									todoEdit.do(instance.state);
+									todoEdit.do(instance)
+										.then(function() {
+											let editing_inputs = document.querySelectorAll('.editing');
+											console.log("second promise", editing_inputs);
+										});
 								}
 							}
 						}
@@ -115,7 +119,7 @@ const createTodoItem = createRenderMixin
 							classes: [ 'edit' ]
 						},
 						listeners: {
-							blur: (event: Event) => { todoSave.do({state: instance.state, event}); },
+							//blur: (event: Event) => { todoSave.do({state: instance.state, event}); },
 							keyup: (event: Event) => { todoEditInput.do({state: instance.state, event}); }
 						}
 					}

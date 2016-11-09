@@ -35,7 +35,22 @@ export const todoInput = createAction({
 
 export const todoEdit = createAction({
 	do(options: any) {
-		return widgetStore.patch(assign(options, { editing: true }));
+		/* TODO: setting the focus here seems wrong. If it went in a new function, where would that go? */
+		/* TODO: there must be a better way to get the edit input's dom node */
+
+		const promise = widgetStore.patch(assign(options.state, { editing: true }));
+		promise.then((value) => {
+			console.log(value);
+			let editing_inputs = document.querySelectorAll('.editing');
+			console.log("first promise", editing_inputs); // This returns empty. Classes haven't been added to the dom yet here
+			// erg, why do I need this after the promise is resolved?
+			window.setTimeout(function(){
+				const children = options.getChildrenNodes(),
+							editInput = children[1];
+				editInput.domNode.focus();
+			}, 0);
+		});
+		return promise;
 	}
 });
 
