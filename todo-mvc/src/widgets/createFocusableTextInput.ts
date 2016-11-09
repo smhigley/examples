@@ -22,11 +22,9 @@ const afterUpdateFunctions = new WeakMap<FocusableTextInput, {(element: HTMLInpu
 
 /* afterUpdate is a Maquette JS callback when it thinks the node "may have been updated" */
 function afterUpdate(instance: FocusableTextInput, element: HTMLInputElement) {
-	console.log(arguments);
 	const focused: boolean = instance.state.focused;
-	console.log("afterUpdate Called on", element);
 	if (focused) {
-		setTimeout(() => element.focus(), 0);
+		element.focus();
 	}
 	else if (!focused && document.activeElement === element) {
 		element.blur();
@@ -49,7 +47,7 @@ const createFocusableTextInput = createRenderMixin
 			function (this: FocusableTextInput): VNodeProperties {
 				const afterUpdate = afterUpdateFunctions.get(this);
 				const { placeholder } = this.state;
-				return { afterUpdate, placeholder };
+				return { afterCreate: afterUpdate, afterUpdate, placeholder };
 			}
 		],
 

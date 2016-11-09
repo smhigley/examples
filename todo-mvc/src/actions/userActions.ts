@@ -35,23 +35,7 @@ export const todoInput = createAction({
 
 export const todoEdit = createAction({
 	do(options: any) {
-		/* TODO: setting the focus here seems wrong. If it went in a new function, where would that go? */
-		/* TODO: there must be a better way to get the edit input's dom node */
-		const tmp_children = options.getChildrenNodes(),
-					tmp_editInput = tmp_children[1];
-		console.log("edit input domNode", tmp_editInput.properties['data-widget-id'], tmp_editInput.domNode);
-
-		const promise = widgetStore.patch(assign(options.state, { editing: true }));
-		promise.then(() => {
-			const children = options.getChildrenNodes(),
-						editInput = children[1];
-			console.log("edit input domNode:", editInput.properties['data-widget-id'], editInput.domNode);
-
-			setTimeout(() => {
-				console.log("edit input domNode in timeout:", editInput.properties['data-widget-id'], editInput.domNode);
-			}, 0)
-		});
-		return promise;
+		return widgetStore.patch(assign(options, { editing: true }));
 	}
 });
 
