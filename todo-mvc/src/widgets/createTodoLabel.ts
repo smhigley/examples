@@ -12,9 +12,9 @@ const createTodoLabel = createRenderMixin
 		nodeAttributes: [
 			function (this: TodoLabel): VNodeProperties {
 				return {
-					"aria-describedby": "edit-instructions",
-					tabindex: "0"
-				}
+					'aria-describedby': 'edit-instructions',
+					tabindex: '0'
+				};
 			}
 		]
 	});
