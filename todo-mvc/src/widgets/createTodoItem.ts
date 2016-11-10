@@ -111,6 +111,7 @@ const createTodoItem = createRenderMixin
 				editInput: {
 					factory: createFocusableTextInput,
 					options: {
+						label: 'Type to edit Todo',
 						state: {
 							classes: [ 'edit' ]
 						},

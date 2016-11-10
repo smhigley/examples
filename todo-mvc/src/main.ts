@@ -24,6 +24,9 @@ app.loadDefinition({
 			factory: createFocusableTextInput,
 			listeners: {
 				keypress: todoInput
+			},
+			options: {
+				label: 'Create a Todo'
 			}
 		},
 		{

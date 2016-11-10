@@ -14,9 +14,13 @@ export type FocusableTextInputState = RenderMixinState & FormFieldMixinState<str
 	placeholder?: string;
 };
 
-export type FocusableTextInputOptions = RenderMixinOptions<FocusableTextInputState> & FormFieldMixinOptions<string, FocusableTextInputState>;
+export type FocusableTextInputOptions = RenderMixinOptions<FocusableTextInputState> & FormFieldMixinOptions<string, FocusableTextInputState> & {
+	label?: string;
+};
 
-export type FocusableTextInput = RenderMixin<FocusableTextInputState> & FormFieldMixin<string, FocusableTextInputState> & VNodeEvented;
+export type FocusableTextInput = RenderMixin<FocusableTextInputState> & FormFieldMixin<string, FocusableTextInputState> & VNodeEvented & {
+	label?: string
+};
 
 const afterUpdateFunctions = new WeakMap<FocusableTextInput, {(element: HTMLInputElement): void}>();
 
@@ -35,11 +39,14 @@ const createFocusableTextInput = createRenderMixin
 	.mixin(createFormFieldMixin)
 	.mixin({
 		mixin: createVNodeEvented,
-		initialize(instance) {
+		initialize(instance: any, { label }: FocusableTextInputOptions) {
 			instance.own(instance.on('input', (event: TypedTargetEvent<HTMLInputElement>) => {
 				instance.value = event.target.value;
 			}));
 			afterUpdateFunctions.set(instance, (element: HTMLInputElement) => afterUpdate(instance, element));
+			if (label) {
+				instance.label = label;
+			}
 		}
 	})
 	.extend({
@@ -47,7 +54,7 @@ const createFocusableTextInput = createRenderMixin
 			function (this: FocusableTextInput): VNodeProperties {
 				const afterUpdate = afterUpdateFunctions.get(this);
 				const { placeholder } = this.state;
-				return { afterCreate: afterUpdate, afterUpdate, placeholder };
+				return { afterCreate: afterUpdate, afterUpdate, placeholder, 'aria-label': this.label };
 			}
 		],
 
