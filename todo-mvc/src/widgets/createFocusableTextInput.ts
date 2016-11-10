@@ -14,6 +14,7 @@ export type FocusableTextInputState = RenderMixinState & FormFieldMixinState<str
 	placeholder?: string;
 };
 
+/* TODO: label should probably be baked into FormFieldMixin. There's currently a label attribute in state, so we should consider re-naming one of them */
 export type FocusableTextInputOptions = RenderMixinOptions<FocusableTextInputState> & FormFieldMixinOptions<string, FocusableTextInputState> & {
 	label?: string;
 };
