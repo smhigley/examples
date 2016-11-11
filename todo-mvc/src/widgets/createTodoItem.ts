@@ -159,7 +159,12 @@ const createTodoItem = createRenderMixin
 			const { checkbox, label, button, editInput } = childrenMap.get(this);
 			return [
 				h('div.view', [
-					checkbox.widget.render(),
+					h('label', { classes: { 'simple-label': true } }, [
+						h('span.visually-hidden', {
+							innerHTML: 'Mark completed'
+						}),
+						checkbox.widget.render()
+					]),
 					label.widget.render(),
 					button.widget.render()
 				]),
